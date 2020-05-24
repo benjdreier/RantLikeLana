@@ -31,11 +31,21 @@ body {
 	font-family: "LanaFont";
 }
 
+footer {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	text-align: center;
+}
+
 #floatingTextBox {
 	position: absolute;
 	width: 100%;
 	left: 0;
-	/*border: none;*/
+	z-index: 0;
+	color: white;
+	border: none;
 	background: transparent;
 }
 
@@ -52,14 +62,6 @@ body {
 
 var c = document.getElementById('photocanvas');
 var ctx = c.getContext('2d');
-
-// Quick: allow mobile click
-c.addEventListener("touchstart", function(e) {
-	console.log("touch!");
-	setTimeout(function() {
-		input[0].focus();
-	})
-})
 
 // TODO: Split into top and bottom for dynamic expanding
 // TODO: Light mode/dark mode lol
@@ -131,6 +133,10 @@ function keyPressed(e){
 
 	// And readd text
 	drawText(text);
+
+	// Also clear the floting text box
+	var floatingtext = document.getElementById("floatingTextBox");
+	floatingtext.value = "";
 }
 
 // Idk? adjust
