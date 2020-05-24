@@ -3,6 +3,7 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, user-scalable=0"/>
 </head>
 
@@ -20,6 +21,10 @@ My name is Ben. <br> Follow me:
 <a href="https://benjdreier.github.io/" class="fa fa-github"></a>
 </footer>
 
+<div id="saveDiv" onclick="save();">
+<input id="saveButton" type="button" value="Save">
+</div>
+
 </body>
 
 <style type="text/css"> 
@@ -35,11 +40,10 @@ body {
 }
 
 footer {
+	text-align: left;
 	position: absolute;
 	bottom: 5;
-	left: 50%;
-	transform: translate(-50%, 0);
-	text-align: center;
+	left: 5;
 }
 
 #floatingTextBox {
@@ -50,12 +54,21 @@ footer {
 	color: white;
 	border: none;
 	background: transparent;
+
+	display: none;
 }
 
 #photocanvas {
 	display: block;
 	margin: 0 auto;
 	letter-spacing: 4;
+}
+
+#saveDiv {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	display: none;
 }
 
 
@@ -70,6 +83,7 @@ var ctx = c.getContext('2d');
 // TODO: Light mode/dark mode lol
 var lanaBlank = new Image();
 lanaBlank.src = "DarkmodeBlankFull.jpeg";
+lanaBlank.origin = "anonymous";
 
 // For now. Maybe add a slider.
 var scale = 0.28;
@@ -138,7 +152,6 @@ function keyPressed(e){
 	drawText(text);
 
 	// Also clear the floting text box
-	var floatingtext = document.getElementById("floatingTextBox");
 	floatingtext.value = "";
 }
 
@@ -183,6 +196,42 @@ function getLines(ctx, text, maxWidth){
 
     //console.log(lines);
     return lines;
+}
+
+// mobile detection things 
+var mobile = false;
+
+var floatingtext = document.getElementById("floatingTextBox");
+
+var savediv = document.getElementById('saveDiv');
+var savebutton = document.getElementById('saveButton');
+
+window.addEventListener("touchstart", function(){
+	console.log("tuc");
+	
+	// we're on mobile now so bring up the mobile stuff.
+	if(!mobile){
+		mobile = true;
+
+		floatingtext.style.display = "block";
+		savediv.style.display = "block";
+	}
+})
+
+var saving = true;
+function save(){
+	// bring canvas to the front to allow saving
+	//floatingtext.style.zIndex = 0;
+	//c.style.zIndex = 1;
+	if(saving){
+		floatingtext.style.display = "none";
+		savebutton.value = "Now long-press the image to save.";
+		saving = false;
+	}
+	else{
+		savebutton.value = "Save";
+		saving = true;
+	}
 }
 
 </script>
