@@ -2,7 +2,8 @@
 
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0, user-scalable=0"/>
 </head>
 
 <body>
@@ -14,7 +15,9 @@
 <canvas id="photocanvas" "></canvas>
 
 <footer id="info"> 
-My name is Ben. Follow me on Twitter and Github.
+My name is Ben. <br> Follow me: 
+<a href="https://twitter.com/youjustgotbened" class="fa fa-twitter"></a>
+<a href="https://benjdreier.github.io/" class="fa fa-github"></a>
 </footer>
 
 </body>
@@ -33,7 +36,7 @@ body {
 
 footer {
 	position: absolute;
-	bottom: 0;
+	bottom: 5;
 	left: 50%;
 	transform: translate(-50%, 0);
 	text-align: center;
@@ -69,7 +72,7 @@ var lanaBlank = new Image();
 lanaBlank.src = "DarkmodeBlankFull.jpeg";
 
 // For now. Maybe add a slider.
-var scale = 0.3;
+var scale = 0.28;
 
 // User will write in this string
 var text = "";
