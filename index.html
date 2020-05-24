@@ -9,6 +9,8 @@
 
 <h1> Rant like Lana del Rey </h1>
 
+<textarea id="floatingTextBox"></textarea>
+
 <canvas id="photocanvas" "></canvas>
 
 <footer id="info"> 
@@ -17,7 +19,7 @@ My name is Ben. Follow me on Twitter and Github.
 
 </body>
 
-<style> 
+<style type="text/css"> 
 @font-face {
 	font-family: "LanaFont";
 	src: url("american-typewriter.ttf");
@@ -26,6 +28,15 @@ My name is Ben. Follow me on Twitter and Github.
 body {
 	text-align: center;
 	margin: 0px;
+	font-family: "LanaFont";
+}
+
+#floatingTextBox {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	/*border: none;*/
+	background: transparent;
 }
 
 #photocanvas {
@@ -43,9 +54,11 @@ var c = document.getElementById('photocanvas');
 var ctx = c.getContext('2d');
 
 // Quick: allow mobile click
-c.addEventListener("touchstart", function(e){
+c.addEventListener("touchstart", function(e) {
 	console.log("touch!");
-	c.focus();
+	setTimeout(function() {
+		input[0].focus();
+	})
 })
 
 // TODO: Split into top and bottom for dynamic expanding
@@ -68,14 +81,18 @@ lanaBlank.onload = function(){
 	c.style.height = this.height * scale;
 	//c.style.transform = "scale3d(0.3, 0.3, 0)";
 
-	// and start listening for typing
+	
 	ctx.font = '32px LanaFont';
 	ctx.fillStyle = '#424242';
 
 	// draw once for fun?
 	drawText("");
 
+	// make the textbox the height of the pic
+	var floatingtext = document.getElementById("floatingTextBox");
+	floatingtext.style.height = c.style.height;
 
+	// and start listening for typing
 	window.addEventListener("keypress", keyPressed);
 
 	// ugh. just for backspace:
@@ -132,12 +149,14 @@ function drawText(text){
 
 // Courtesy of @crazy2be on StackOverflow
 function getLines(ctx, text, maxWidth){
+	// TODO: I could chaeck character by character to split long words. But i'm not gonna. First make it work for mobile.
+
     var words = text.split(" ");
     var lines = [];
     var currentLine = words[0];
-
     for (var i = 1; i < words.length; i++) {
         var word = words[i];
+
         var width = ctx.measureText(currentLine + " " + word).width;
         if (words[i-1] == "\n") {
         	lines.push(currentLine);
@@ -153,7 +172,7 @@ function getLines(ctx, text, maxWidth){
     }
     lines.push(currentLine);
 
-    console.log(lines);
+    //console.log(lines);
     return lines;
 }
 
