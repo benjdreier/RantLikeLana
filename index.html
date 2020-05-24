@@ -9,7 +9,7 @@
 
 <body>
 
-<h1> Rant like Lana del Rey </h1>
+<h2> Rant like Lana del Rey </h2>
 
 <textarea id="floatingTextBox"></textarea>
 
@@ -35,14 +35,15 @@ My name is Ben. <br> Follow me:
 body {
 	text-align: center;
 	margin: 0px;
+	margin-top: 5px;
 	font-family: "LanaFont";
 }
 
 footer {
-	text-align: left;
 	position: absolute;
 	bottom: 5;
-	left: 5;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 
 #floatingTextBox {
@@ -84,7 +85,7 @@ var lanaBlank = new Image();
 lanaBlank.src = "DarkmodeBlankFull.jpeg";
 lanaBlank.origin = "anonymous";
 
-// For now. Maybe add a slider.
+// For now.
 var scale = 0.28;
 
 // User will write in this string
