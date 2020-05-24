@@ -1,0 +1,155 @@
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+</head>
+
+<body>
+
+<h1> Rant like Lana del Rey </h1>
+
+<canvas id="photocanvas" onclick="this.focus()"></canvas>
+
+<footer id="info"> 
+My name is Ben. Follow me on Twitter and Github.
+</footer>
+
+</body>
+
+<style> 
+@font-face {
+	font-family: "LanaFont";
+	src: url("american-typewriter.ttf");
+}
+
+body {
+	text-align: center;
+	margin: 0px;
+}
+
+#photocanvas {
+	display: block;
+	margin: 0 auto;
+	letter-spacing: 4;
+}
+
+
+</style>
+
+<script>
+
+var c = document.getElementById('photocanvas');
+var ctx = c.getContext('2d');
+
+// TODO: Split into top and bottom for dynamic expanding
+// TODO: Light mode/dark mode lol
+var lanaBlank = new Image();
+lanaBlank.src = "DarkmodeBlankFull.jpeg";
+
+// For now. Maybe add a slider.
+var scale = 0.3;
+
+// User will write in this string
+var text = "";
+
+lanaBlank.onload = function(){
+	c.width = this.width;
+	c.height = this.height;
+	ctx.drawImage(this, 0, 0, this.width, this.height);
+	// Then scale down with css for high res
+	c.style.width = this.width * scale;
+	c.style.height = this.height * scale;
+	//c.style.transform = "scale3d(0.3, 0.3, 0)";
+
+	// and start listening for typing
+	ctx.font = '32px LanaFont';
+	ctx.fillStyle = '#424242';
+
+	// draw once for fun?
+	drawText("");
+
+
+	window.addEventListener("keypress", keyPressed);
+
+	// ugh. just for backspace:
+	window.addEventListener("keydown", keyDown);
+}
+
+function keyDown(e){
+	if(e.keyCode == 8){
+		console.log("Backspace");
+		// Get rid of the last char
+		text = text.slice(0, -1);
+		// Then redraw the background
+		ctx.drawImage(lanaBlank, 0, 0, lanaBlank.width, lanaBlank.height);
+
+		// And readd text
+		drawText(text);
+	}
+}
+
+function keyPressed(e){
+	// Update the string of text being displayed.	
+
+	if(e.charCode == 13){
+		// Enter was pressed.
+		text += " \n ";
+	}
+	else{
+		// A normal letter was pressed
+		let letter = String.fromCharCode(e.charCode);
+		
+		text += letter;
+	}
+	
+	// Then redraw the background
+	ctx.drawImage(lanaBlank, 0, 0, lanaBlank.width, lanaBlank.height);
+
+	// And readd text
+	drawText(text);
+}
+
+// Idk? adjust
+const MAX_WIDTH = 1100;
+const MARG_LEFT = 80;
+const MARG_TOP = 260;
+const LINE_HEIGHT = 40;
+function drawText(text){
+	var lines = getLines(ctx, text, MAX_WIDTH);
+	for (var i = 0; i < lines.length; i++){
+		// draw this line
+		let line = lines[i];
+		ctx.fillText(line, MARG_LEFT, MARG_TOP + i * LINE_HEIGHT);
+	}
+}
+
+// Courtesy of @crazy2be on StackOverflow
+function getLines(ctx, text, maxWidth){
+    var words = text.split(" ");
+    var lines = [];
+    var currentLine = words[0];
+
+    for (var i = 1; i < words.length; i++) {
+        var word = words[i];
+        var width = ctx.measureText(currentLine + " " + word).width;
+        if (words[i-1] == "\n") {
+        	lines.push(currentLine);
+        	currentLine = word;
+        }
+        else if (width < maxWidth) {
+            currentLine += " " + word;
+        } 
+        else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+    }
+    lines.push(currentLine);
+
+    console.log(lines);
+    return lines;
+}
+
+</script>
+
+</html>
