@@ -1,6 +1,7 @@
 <html>
 
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
 </head>
 
@@ -8,7 +9,7 @@
 
 <h1> Rant like Lana del Rey </h1>
 
-<canvas id="photocanvas" onclick="this.focus()"></canvas>
+<canvas id="photocanvas" "></canvas>
 
 <footer id="info"> 
 My name is Ben. Follow me on Twitter and Github.
@@ -40,6 +41,12 @@ body {
 
 var c = document.getElementById('photocanvas');
 var ctx = c.getContext('2d');
+
+// Quick: allow mobile click
+c.addEventListener("touchstart", function(e){
+	console.log("touch!");
+	c.focus();
+})
 
 // TODO: Split into top and bottom for dynamic expanding
 // TODO: Light mode/dark mode lol
